@@ -1,3 +1,24 @@
+# Requirements
+
+* docker
+* docker-compose
+
+# Usage
+
+We just need to run `docker-compose up` and the server will be accessible on http://localhost:8000/swaggerui/
+
+```bash
+docker-compose up
+```
+
+Cause I'm not a frontend developer I've provided only SwaggerUI to test API.
+I've used MongoDB cause I wanted to try it our already for a long time but didn't have tasks where I can use it :) But it fits well for
+this task, cause we don't have any relations, and good that we don't need to deal with migrations.
+
+The next step will be to write unit tests for the service, we have all interfaces and mocks in place, but I didn't have time for that, cause the task was not to spend more than a day.
+
+And that's what I can do within a day.
+
 # Pento tech challenge
 
 Thanks for taking the time to do our tech challenge.

@@ -1,0 +1,204 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "Tracker.",
+    "contact": {
+      "name": "Pavel Aborilov",
+      "email": "pavel@aborilov.ru"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/session/": {
+      "get": {
+        "description": "return list of session",
+        "summary": "Return list of session",
+        "operationId": "listSessins",
+        "parameters": [
+          {
+            "type": "date-time",
+            "name": "start_after",
+            "in": "query"
+          },
+          {
+            "type": "date-time",
+            "name": "end_before",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/sessions"
+          },
+          "503": {
+            "description": "unable to get list of sessions or marshal output",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/session/start": {
+      "post": {
+        "description": "Start new tracking session",
+        "summary": "Start new tracking session",
+        "operationId": "startSession",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/session"
+          },
+          "400": {
+            "description": "session already in progress",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "503": {
+            "description": "unable to start new session or marshal output",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/session/stop": {
+      "post": {
+        "description": "Start new tracking session",
+        "summary": "Stop in progress session",
+        "operationId": "stopSession",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/session"
+          },
+          "400": {
+            "description": "there is no session in progress",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "503": {
+            "description": "unable to stop session or marshal output",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/session/{id}?{name}=work": {
+      "put": {
+        "description": "Start new tracking session",
+        "summary": "set name of the specified session",
+        "operationId": "setSessionName",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "name of the session",
+            "name": "name",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "id of the session",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/session"
+          },
+          "400": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "503": {
+            "description": "unable to update session or marshal output",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "session": {
+      "type": "object",
+      "properties": {
+        "end": {
+          "description": "End time of the session",
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "End"
+        },
+        "id": {
+          "description": "ID of the session",
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "name": {
+          "description": "Name of the session",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "start": {
+          "description": "Start time of the session",
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Start"
+        }
+      },
+      "x-go-package": "github.com/aborilov/tech-challenge-time/backend/v1/api/session"
+    }
+  },
+  "responses": {
+    "session": {
+      "description": "",
+      "headers": {
+        "end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time of the session"
+        },
+        "id": {
+          "type": "string",
+          "description": "ID of the session"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the session"
+        },
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of the session"
+        }
+      }
+    },
+    "sessions": {
+      "description": "",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/session"
+        }
+      }
+    }
+  }
+}
